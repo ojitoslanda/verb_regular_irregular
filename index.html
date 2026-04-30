@@ -1,0 +1,164 @@
+
+<style>
+  h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-sans)}
+  .container{padding:1rem 0}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+  .controls input{flex:1;min-width:160px;padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-primary);color:var(--color-text-primary)}
+  .controls select{padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+  .badge-reg{background:#EAF3DE;color:#3B6D11}
+  .badge-irr{background:#FAECE7;color:#993C1D}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead tr{background:var(--color-background-secondary)}
+  th{padding:10px 12px;text-align:left;font-weight:500;color:var(--color-text-secondary);font-size:12px;letter-spacing:.04em;border-bottom:0.5px solid var(--color-border-tertiary)}
+  td{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--color-background-secondary)}
+  .col-base{font-weight:500}
+  .col-past{color:#185FA5}
+  .col-pp{color:#3B6D11}
+  .col-es{color:var(--color-text-secondary);font-style:italic}
+  .stats{display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
+  .stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem 1rem;font-size:13px;color:var(--color-text-secondary)}
+  .stat span{font-weight:500;color:var(--color-text-primary);font-size:15px;display:block}
+  .no-results{text-align:center;padding:2rem;color:var(--color-text-secondary);font-size:14px}
+  .col-header{display:flex;gap:4px;align-items:center}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--color-text-secondary);margin-bottom:1rem;flex-wrap:wrap}
+  .legend-item{display:flex;align-items:center;gap:6px}
+</style>
+
+<div class="container">
+  <h2 class="sr-only">Tabla de 60 verbos en inglés — regulares e irregulares — con sus formas pasadas y traducción al español</h2>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Buscar verbo en inglés o español..." oninput="render()">
+    <select id="filter" onchange="render()">
+      <option value="all">Todos (60)</option>
+      <option value="regular">Solo regulares</option>
+      <option value="irregular">Solo irregulares</option>
+    </select>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="badge badge-reg">Regular</span> termina en -ed</div>
+    <div class="legend-item"><span class="badge badge-irr">Irregular</span> forma propia</div>
+    <div class="legend-item" style="color:var(--color-text-secondary);font-size:12px">Past Simple <span style="color:#185FA5;font-weight:500">azul</span> · Past Participle <span style="color:#3B6D11;font-weight:500">verde</span></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span id="s-total">60</span>Verbos mostrados</div>
+    <div class="stat"><span id="s-reg">30</span>Regulares</div>
+    <div class="stat"><span id="s-irr">30</span>Irregulares</div>
+  </div>
+
+  <div style="overflow-x:auto;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg)">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo</th>
+          <th>Base form</th>
+          <th>Past simple</th>
+          <th>Past participle</th>
+          <th>Español</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="no-results" id="empty" style="display:none">No se encontraron verbos con ese término.</div>
+  </div>
+</div>
+
+<script>
+const verbs=[
+  {t:"regular",base:"ask",p2:"asked",pp:"asked",es:"preguntar"},
+  {t:"regular",base:"call",p2:"called",pp:"called",es:"llamar"},
+  {t:"regular",base:"clean",p2:"cleaned",pp:"cleaned",es:"limpiar"},
+  {t:"regular",base:"close",p2:"closed",pp:"closed",es:"cerrar"},
+  {t:"regular",base:"cook",p2:"cooked",pp:"cooked",es:"cocinar"},
+  {t:"regular",base:"dance",p2:"danced",pp:"danced",es:"bailar"},
+  {t:"regular",base:"finish",p2:"finished",pp:"finished",es:"terminar"},
+  {t:"regular",base:"help",p2:"helped",pp:"helped",es:"ayudar"},
+  {t:"regular",base:"jump",p2:"jumped",pp:"jumped",es:"saltar"},
+  {t:"regular",base:"laugh",p2:"laughed",pp:"laughed",es:"reír"},
+  {t:"regular",base:"learn",p2:"learned",pp:"learned",es:"aprender"},
+  {t:"regular",base:"like",p2:"liked",pp:"liked",es:"gustar"},
+  {t:"regular",base:"listen",p2:"listened",pp:"listened",es:"escuchar"},
+  {t:"regular",base:"live",p2:"lived",pp:"lived",es:"vivir"},
+  {t:"regular",base:"love",p2:"loved",pp:"loved",es:"amar"},
+  {t:"regular",base:"need",p2:"needed",pp:"needed",es:"necesitar"},
+  {t:"regular",base:"open",p2:"opened",pp:"opened",es:"abrir"},
+  {t:"regular",base:"play",p2:"played",pp:"played",es:"jugar"},
+  {t:"regular",base:"rain",p2:"rained",pp:"rained",es:"llover"},
+  {t:"regular",base:"start",p2:"started",pp:"started",es:"empezar"},
+  {t:"regular",base:"stop",p2:"stopped",pp:"stopped",es:"parar"},
+  {t:"regular",base:"study",p2:"studied",pp:"studied",es:"estudiar"},
+  {t:"regular",base:"talk",p2:"talked",pp:"talked",es:"hablar"},
+  {t:"regular",base:"travel",p2:"traveled",pp:"traveled",es:"viajar"},
+  {t:"regular",base:"try",p2:"tried",pp:"tried",es:"intentar"},
+  {t:"regular",base:"use",p2:"used",pp:"used",es:"usar"},
+  {t:"regular",base:"visit",p2:"visited",pp:"visited",es:"visitar"},
+  {t:"regular",base:"wait",p2:"waited",pp:"waited",es:"esperar"},
+  {t:"regular",base:"walk",p2:"walked",pp:"walked",es:"caminar"},
+  {t:"regular",base:"watch",p2:"watched",pp:"watched",es:"mirar/ver"},
+  {t:"irregular",base:"be",p2:"was/were",pp:"been",es:"ser/estar"},
+  {t:"irregular",base:"begin",p2:"began",pp:"begun",es:"comenzar"},
+  {t:"irregular",base:"bring",p2:"brought",pp:"brought",es:"traer"},
+  {t:"irregular",base:"buy",p2:"bought",pp:"bought",es:"comprar"},
+  {t:"irregular",base:"come",p2:"came",pp:"come",es:"venir"},
+  {t:"irregular",base:"do",p2:"did",pp:"done",es:"hacer"},
+  {t:"irregular",base:"drink",p2:"drank",pp:"drunk",es:"beber"},
+  {t:"irregular",base:"drive",p2:"drove",pp:"driven",es:"manejar"},
+  {t:"irregular",base:"eat",p2:"ate",pp:"eaten",es:"comer"},
+  {t:"irregular",base:"feel",p2:"felt",pp:"felt",es:"sentir"},
+  {t:"irregular",base:"find",p2:"found",pp:"found",es:"encontrar"},
+  {t:"irregular",base:"get",p2:"got",pp:"gotten",es:"obtener"},
+  {t:"irregular",base:"give",p2:"gave",pp:"given",es:"dar"},
+  {t:"irregular",base:"go",p2:"went",pp:"gone",es:"ir"},
+  {t:"irregular",base:"have",p2:"had",pp:"had",es:"tener"},
+  {t:"irregular",base:"know",p2:"knew",pp:"known",es:"saber/conocer"},
+  {t:"irregular",base:"make",p2:"made",pp:"made",es:"hacer/fabricar"},
+  {t:"irregular",base:"put",p2:"put",pp:"put",es:"poner"},
+  {t:"irregular",base:"read",p2:"read",pp:"read",es:"leer"},
+  {t:"irregular",base:"run",p2:"ran",pp:"run",es:"correr"},
+  {t:"irregular",base:"say",p2:"said",pp:"said",es:"decir"},
+  {t:"irregular",base:"see",p2:"saw",pp:"seen",es:"ver"},
+  {t:"irregular",base:"sell",p2:"sold",pp:"sold",es:"vender"},
+  {t:"irregular",base:"sit",p2:"sat",pp:"sat",es:"sentarse"},
+  {t:"irregular",base:"sleep",p2:"slept",pp:"slept",es:"dormir"},
+  {t:"irregular",base:"speak",p2:"spoke",pp:"spoken",es:"hablar"},
+  {t:"irregular",base:"take",p2:"took",pp:"taken",es:"tomar"},
+  {t:"irregular",base:"think",p2:"thought",pp:"thought",es:"pensar"},
+  {t:"irregular",base:"write",p2:"wrote",pp:"written",es:"escribir"},
+  {t:"irregular",base:"understand",p2:"understood",pp:"understood",es:"entender"},
+];
+
+function render(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  const f=document.getElementById('filter').value;
+  let data=verbs;
+  if(f==='regular') data=data.filter(v=>v.t==='regular');
+  if(f==='irregular') data=data.filter(v=>v.t==='irregular');
+  if(q) data=data.filter(v=>v.base.includes(q)||v.p2.includes(q)||v.pp.includes(q)||v.es.includes(q));
+  const tbody=document.getElementById('tbody');
+  const empty=document.getElementById('empty');
+  const reg=data.filter(v=>v.t==='regular').length;
+  const irr=data.filter(v=>v.t==='irregular').length;
+  document.getElementById('s-total').textContent=data.length;
+  document.getElementById('s-reg').textContent=reg;
+  document.getElementById('s-irr').textContent=irr;
+  if(!data.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=data.map((v,i)=>`<tr>
+    <td style="color:var(--color-text-secondary);font-size:12px">${i+1}</td>
+    <td><span class="badge ${v.t==='regular'?'badge-reg':'badge-irr'}">${v.t==='regular'?'Regular':'Irregular'}</span></td>
+    <td class="col-base">${v.base}</td>
+    <td class="col-past">${v.p2}</td>
+    <td class="col-pp">${v.pp}</td>
+    <td class="col-es">${v.es}</td>
+  </tr>`).join('');
+}
+render();
+</script>
