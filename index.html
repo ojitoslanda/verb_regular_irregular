@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verbos en Inglés — Forma -ING</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --card: #ffffff;
+    --ink: #1a1a18;
+    --muted: #6b6860;
+    --accent: #2b5ce6;
+    --accent-light: #e8edfc;
+    --green: #1e7a4a;
+    --green-light: #e6f5ed;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --border: #e0ddd5;
+    --rule-bg: #f0ede5;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+  header {
+    max-width: 820px;
+    margin: 0 auto 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  header h1 span {
+    color: var(--accent);
+  }
+  header p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .rules {
+    max-width: 820px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .rule-card .rule-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .rule-card .rule-example {
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .rule-card .rule-example strong { color: var(--accent); }
+
+  .controls {
+    max-width: 820px;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .controls input, .controls select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--card);
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+  }
+  .controls input { flex: 1; min-width: 200px; }
+  .controls input:focus, .controls select:focus { border-color: var(--accent); }
+
+  .stats {
+    max-width: 820px;
+    margin: 0 auto 1rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .stat b { color: var(--ink); font-weight: 600; }
+
+  /* ── TABLE (desktop) ── */
+  .table-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+  thead tr { background: var(--rule-bg); }
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; overflow: hidden; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf9f5; }
+  th:nth-child(1), td:nth-child(1) { width: 38px; }
+  th:nth-child(2), td:nth-child(2) { width: 90px; }
+  th:nth-child(3), td:nth-child(3) { width: 22%; }
+  th:nth-child(4), td:nth-child(4) { width: 24%; }
+  th:nth-child(5), td:nth-child(5) { width: 18%; }
+
+  .num { color: var(--muted); font-size: 12px; }
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-reg { background: var(--green-light); color: var(--green); }
+  .badge-irr { background: var(--red-light); color: var(--red); }
+  .col-base { font-weight: 600; font-size: 15px; }
+  .col-ing { color: var(--accent); font-weight: 600; font-size: 15px; }
+  .col-rule {
+    display: inline-block;
+    background: var(--rule-bg);
+    color: var(--muted);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .col-es { color: var(--muted); font-style: italic; font-size: 13px; }
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  footer {
+    max-width: 820px;
+    margin: 2.5rem auto 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── CARD layout (mobile ≤ 560px) ── */
+  @media (max-width: 560px) {
+    body { padding: 1.25rem .75rem 3rem; }
+    .table-wrap { border-radius: 10px; background: transparent; border: none; }
+    table, thead, tbody, tr, th, td { display: block; width: 100%; }
+    thead { display: none; }
+    tr {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      padding: 14px 14px 10px;
+      position: relative;
+    }
+    tr:hover { background: var(--card); }
+    td { padding: 0; border: none; overflow: visible; }
+
+    /* numero absoluto */
+    td.num {
+      position: absolute;
+      top: 12px; right: 14px;
+      font-size: 11px;
+      color: var(--muted);
+      width: auto;
+    }
+
+    /* badge tipo */
+    td:nth-child(2) { margin-bottom: 8px; }
+
+    /* base → ing en fila grande */
+    td:nth-child(3), td:nth-child(4) {
+      display: inline-block;
+      width: auto;
+    }
+    td:nth-child(3)::after {
+      content: " →";
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 15px;
+      margin: 0 4px;
+    }
+    td:nth-child(4) { margin-bottom: 8px; }
+
+    /* regla y español en fila pequeña */
+    td:nth-child(5), td:nth-child(6) {
+      display: inline-block;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .col-base { font-size: 18px; }
+    .col-ing { font-size: 18px; }
+  }
+
+  @media (max-width: 360px) {
+    .col-base, .col-ing { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Verbos en inglés<br>Base form + <span>-ING</span></h1>
+  <p>60 verbos esenciales — 30 regulares y 30 irregulares — con su forma continua.</p>
+</header>
+
+<div class="rules">
+  <div class="rule-card">
+    <span class="rule-label">Regla 1</span>
+    <span class="rule-example">Consonante → <strong>+ing</strong><br>walk → walk<strong>ing</strong></span>
+  </div>
+  <div class="rule-card">
+    <span class="rule-label">Regla 2</span>
+    <span class="rule-example">E final → <strong>-e +ing</strong><br>danc<s>e</s> → danc<strong>ing</strong></span>
+  </div>
+  <div class="rule-card">
+    <span class="rule-label">Regla 3</span>
+    <span class="rule-example">CVC corta → <strong>doblar +ing</strong><br>run → run<strong>n</strong><strong>ing</strong></span>
+  </div>
+  <div class="rule-card">
+    <span class="rule-label">Nota</span>
+    <span class="rule-example">CVC = consonante-vocal-consonante en sílaba tónica</span>
+  </div>
+</div>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="🔍 Buscar verbo en inglés o español..." oninput="render()">
+  <select id="filter" onchange="render()">
+    <option value="all">Todos los verbos</option>
+    <option value="regular">Solo regulares</option>
+    <option value="irregular">Solo irregulares</option>
+    <option value="plus">Regla: +ing</option>
+    <option value="eminus">Regla: -e +ing</option>
+    <option value="double">Regla: CVC doble</option>
+  </select>
+</div>
+
+<div class="stats">
+  <div class="stat">Total: <b id="s-total">60</b></div>
+  <div class="stat">Regulares: <b id="s-reg">30</b></div>
+  <div class="stat">Irregulares: <b id="s-irr">30</b></div>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Tipo</th>
+        <th>Base form</th>
+        <th>Verb + ing</th>
+        <th>Regla</th>
+        <th>Español</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="no-results" id="empty" style="display:none">No se encontraron verbos con ese término.</div>
+</div>
+
+<footer>Material de estudio · Inglés — Forma continua (-ING) · 60 verbos</footer>
+
+<script>
+const verbs = [
+  {t:"regular",base:"ask",ing:"asking",rule:"+ing",es:"preguntar"},
+  {t:"regular",base:"call",ing:"calling",rule:"+ing",es:"llamar"},
+  {t:"regular",base:"clean",ing:"cleaning",rule:"+ing",es:"limpiar"},
+  {t:"regular",base:"close",ing:"closing",rule:"-e +ing",es:"cerrar"},
+  {t:"regular",base:"cook",ing:"cooking",rule:"+ing",es:"cocinar"},
+  {t:"regular",base:"dance",ing:"dancing",rule:"-e +ing",es:"bailar"},
+  {t:"regular",base:"finish",ing:"finishing",rule:"+ing",es:"terminar"},
+  {t:"regular",base:"help",ing:"helping",rule:"+ing",es:"ayudar"},
+  {t:"regular",base:"jump",ing:"jumping",rule:"+ing",es:"saltar"},
+  {t:"regular",base:"laugh",ing:"laughing",rule:"+ing",es:"reír"},
+  {t:"regular",base:"learn",ing:"learning",rule:"+ing",es:"aprender"},
+  {t:"regular",base:"like",ing:"liking",rule:"-e +ing",es:"gustar"},
+  {t:"regular",base:"listen",ing:"listening",rule:"+ing",es:"escuchar"},
+  {t:"regular",base:"live",ing:"living",rule:"-e +ing",es:"vivir"},
+  {t:"regular",base:"love",ing:"loving",rule:"-e +ing",es:"amar"},
+  {t:"regular",base:"need",ing:"needing",rule:"+ing",es:"necesitar"},
+  {t:"regular",base:"open",ing:"opening",rule:"+ing",es:"abrir"},
+  {t:"regular",base:"play",ing:"playing",rule:"+ing",es:"jugar"},
+  {t:"regular",base:"rain",ing:"raining",rule:"+ing",es:"llover"},
+  {t:"regular",base:"start",ing:"starting",rule:"+ing",es:"empezar"},
+  {t:"regular",base:"stop",ing:"stopping",rule:"CVC doble",es:"parar"},
+  {t:"regular",base:"study",ing:"studying",rule:"+ing",es:"estudiar"},
+  {t:"regular",base:"talk",ing:"talking",rule:"+ing",es:"hablar"},
+  {t:"regular",base:"travel",ing:"traveling",rule:"+ing",es:"viajar"},
+  {t:"regular",base:"try",ing:"trying",rule:"+ing",es:"intentar"},
+  {t:"regular",base:"use",ing:"using",rule:"-e +ing",es:"usar"},
+  {t:"regular",base:"visit",ing:"visiting",rule:"+ing",es:"visitar"},
+  {t:"regular",base:"wait",ing:"waiting",rule:"+ing",es:"esperar"},
+  {t:"regular",base:"walk",ing:"walking",rule:"+ing",es:"caminar"},
+  {t:"regular",base:"watch",ing:"watching",rule:"+ing",es:"mirar"},
+  {t:"irregular",base:"be",ing:"being",rule:"-e +ing",es:"ser/estar"},
+  {t:"irregular",base:"begin",ing:"beginning",rule:"CVC doble",es:"comenzar"},
+  {t:"irregular",base:"bring",ing:"bringing",rule:"+ing",es:"traer"},
+  {t:"irregular",base:"buy",ing:"buying",rule:"+ing",es:"comprar"},
+  {t:"irregular",base:"come",ing:"coming",rule:"-e +ing",es:"venir"},
+  {t:"irregular",base:"do",ing:"doing",rule:"+ing",es:"hacer"},
+  {t:"irregular",base:"drink",ing:"drinking",rule:"+ing",es:"beber"},
+  {t:"irregular",base:"drive",ing:"driving",rule:"-e +ing",es:"manejar"},
+  {t:"irregular",base:"eat",ing:"eating",rule:"+ing",es:"comer"},
+  {t:"irregular",base:"feel",ing:"feeling",rule:"+ing",es:"sentir"},
+  {t:"irregular",base:"find",ing:"finding",rule:"+ing",es:"encontrar"},
+  {t:"irregular",base:"get",ing:"getting",rule:"CVC doble",es:"obtener"},
+  {t:"irregular",base:"give",ing:"giving",rule:"-e +ing",es:"dar"},
+  {t:"irregular",base:"go",ing:"going",rule:"+ing",es:"ir"},
+  {t:"irregular",base:"have",ing:"having",rule:"-e +ing",es:"tener"},
+  {t:"irregular",base:"know",ing:"knowing",rule:"+ing",es:"saber/conocer"},
+  {t:"irregular",base:"make",ing:"making",rule:"-e +ing",es:"hacer"},
+  {t:"irregular",base:"put",ing:"putting",rule:"CVC doble",es:"poner"},
+  {t:"irregular",base:"read",ing:"reading",rule:"+ing",es:"leer"},
+  {t:"irregular",base:"run",ing:"running",rule:"CVC doble",es:"correr"},
+  {t:"irregular",base:"say",ing:"saying",rule:"+ing",es:"decir"},
+  {t:"irregular",base:"see",ing:"seeing",rule:"+ing",es:"ver"},
+  {t:"irregular",base:"sell",ing:"selling",rule:"+ing",es:"vender"},
+  {t:"irregular",base:"sit",ing:"sitting",rule:"CVC doble",es:"sentarse"},
+  {t:"irregular",base:"sleep",ing:"sleeping",rule:"+ing",es:"dormir"},
+  {t:"irregular",base:"speak",ing:"speaking",rule:"+ing",es:"hablar"},
+  {t:"irregular",base:"take",ing:"taking",rule:"-e +ing",es:"tomar"},
+  {t:"irregular",base:"think",ing:"thinking",rule:"+ing",es:"pensar"},
+  {t:"irregular",base:"write",ing:"writing",rule:"-e +ing",es:"escribir"},
+  {t:"irregular",base:"understand",ing:"understanding",rule:"+ing",es:"entender"},
+];
+
+const ruleMap = { plus: "+ing", eminus: "-e +ing", double: "CVC doble" };
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const f = document.getElementById('filter').value;
+  let data = verbs;
+  if (f === 'regular') data = data.filter(v => v.t === 'regular');
+  else if (f === 'irregular') data = data.filter(v => v.t === 'irregular');
+  else if (ruleMap[f]) data = data.filter(v => v.rule === ruleMap[f]);
+  if (q) data = data.filter(v => v.base.includes(q) || v.ing.includes(q) || v.es.includes(q));
+  document.getElementById('s-total').textContent = data.length;
+  document.getElementById('s-reg').textContent = data.filter(v => v.t === 'regular').length;
+  document.getElementById('s-irr').textContent = data.filter(v => v.t === 'irregular').length;
+  const tbody = document.getElementById('tbody');
+  const empty = document.getElementById('empty');
+  if (!data.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = data.map((v, i) => `<tr>
+    <td class="num">${i + 1}</td>
+    <td><span class="badge ${v.t === 'regular' ? 'badge-reg' : 'badge-irr'}">${v.t === 'regular' ? 'Regular' : 'Irregular'}</span></td>
+    <td class="col-base">${v.base}</td>
+    <td class="col-ing">${v.ing}</td>
+    <td><span class="col-rule">${v.rule}</span></td>
+    <td class="col-es">${v.es}</td>
+  </tr>`).join('');
+}
+render();
+</script>
+</body>
+</html>
